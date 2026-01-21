@@ -282,8 +282,8 @@ session, _ := client.CreateSession(&copilot.SessionConfig{
     Model: "gpt-5",
     InfiniteSessions: &copilot.InfiniteSessionConfig{
         Enabled:                       copilot.Bool(true),
-        BackgroundCompactionThreshold: Float64(0.80), // Start compacting at 80% context usage
-        BufferExhaustionThreshold:     Float64(0.95), // Block at 95% until compaction completes
+        BackgroundCompactionThreshold: copilot.Float64(0.80), // Start compacting at 80% context usage
+        BufferExhaustionThreshold:     copilot.Float64(0.95), // Block at 95% until compaction completes
     },
 })
 
