@@ -344,12 +344,13 @@ public class CopilotClient : IDisposable, IAsyncDisposable
             config?.CustomAgents,
             config?.ConfigDir,
             config?.SkillDirectories,
-            config?.DisabledSkills);
+            config?.DisabledSkills,
+            config?.InfiniteSessions);
 
         var response = await connection.Rpc.InvokeWithCancellationAsync<CreateSessionResponse>(
             "session.create", [request], cancellationToken);
 
-        var session = new CopilotSession(response.SessionId, connection.Rpc);
+        var session = new CopilotSession(response.SessionId, connection.Rpc, response.WorkspacePath);
         session.RegisterTools(config?.Tools ?? []);
         if (config?.OnPermissionRequest != null)
         {
@@ -406,7 +407,7 @@ public class CopilotClient : IDisposable, IAsyncDisposable
         var response = await connection.Rpc.InvokeWithCancellationAsync<ResumeSessionResponse>(
             "session.resume", [request], cancellationToken);
 
-        var session = new CopilotSession(response.SessionId, connection.Rpc);
+        var session = new CopilotSession(response.SessionId, connection.Rpc, response.WorkspacePath);
         session.RegisterTools(config?.Tools ?? []);
         if (config?.OnPermissionRequest != null)
         {
@@ -929,7 +930,8 @@ public class CopilotClient : IDisposable, IAsyncDisposable
         List<CustomAgentConfig>? CustomAgents,
         string? ConfigDir,
         List<string>? SkillDirectories,
-        List<string>? DisabledSkills);
+        List<string>? DisabledSkills,
+        InfiniteSessionConfig? InfiniteSessions);
 
     private record ToolDefinition(
         string Name,
@@ -941,7 +943,8 @@ public class CopilotClient : IDisposable, IAsyncDisposable
     }
 
     private record CreateSessionResponse(
-        string SessionId);
+        string SessionId,
+        string? WorkspacePath);
 
     private record ResumeSessionRequest(
         string SessionId,
@@ -955,7 +958,8 @@ public class CopilotClient : IDisposable, IAsyncDisposable
         List<string>? DisabledSkills);
 
     private record ResumeSessionResponse(
-        string SessionId);
+        string SessionId,
+        string? WorkspacePath);
 
     private record GetLastSessionIdResponse(
         string? SessionId);
