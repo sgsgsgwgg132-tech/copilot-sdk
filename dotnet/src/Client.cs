@@ -1007,7 +1007,6 @@ public partial class CopilotClient : IDisposable, IAsyncDisposable
     private record CreateSessionResponse(
         string SessionId,
         string? WorkspacePath);
-        string SessionId);
 
     internal record ResumeSessionRequest(
         string SessionId,
@@ -1023,7 +1022,6 @@ public partial class CopilotClient : IDisposable, IAsyncDisposable
     private record ResumeSessionResponse(
         string SessionId,
         string? WorkspacePath);
-        string SessionId);
 
     internal record GetLastSessionIdResponse(
         string? SessionId);
