@@ -1004,7 +1004,7 @@ public partial class CopilotClient : IDisposable, IAsyncDisposable
             => new ToolDefinition(function.Name, function.Description, function.JsonSchema);
     }
 
-    private record CreateSessionResponse(
+    internal record CreateSessionResponse(
         string SessionId,
         string? WorkspacePath);
 
@@ -1019,7 +1019,7 @@ public partial class CopilotClient : IDisposable, IAsyncDisposable
         List<string>? SkillDirectories,
         List<string>? DisabledSkills);
 
-    private record ResumeSessionResponse(
+    internal record ResumeSessionResponse(
         string SessionId,
         string? WorkspacePath);
 
